@@ -1,8 +1,9 @@
 // THIS CPF VALIDATOR WAS COPIED JUST AS SEEN IN THIS EXAMPLE
 // https://www.geradorcpf.com/javascript-validar-cpf.htm
-// IT WAS ONLY FOR STUDY PURPOSES
+// HERE FOR STUDY PURPOSES
 
 function CPFValidator(cpf) {
+
     cpf = cpf.replace(/[^\d]+/g, '');
     if (cpf == '') return false;
     // Elimina CPFs invalidos conhecidos	

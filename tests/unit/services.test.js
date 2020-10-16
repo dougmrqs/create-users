@@ -1,18 +1,6 @@
-const { AgeValidator, CPFValidator } = require('../../src/app/services');
+const { CPFValidator } = require('../../src/domain/user');
 
 describe('Services: Validators', () => {
-    describe('Age validation module', () => {
-        it('should return false for underaged values', () => {
-            expect(AgeValidator(17)).toBeFalsy();
-        });
-        it('should return true for upperaged values', () => {
-            expect(AgeValidator(19)).toBeTruthy();
-        });
-        it('should return true for equally aged values', () => {
-            expect(AgeValidator(18)).toBeTruthy();
-        });
-    });
-
     describe('CPF validation module', () => {
         it('should return false for invalid cpf strings', () => {
             expect(CPFValidator('11122233344456')).toBeFalsy();

@@ -10,7 +10,5 @@ module.exports = (sequelize, DataTypes) => {
 
     );
 
-    User.prototype.checkAge = (age) => age > 18 ? true : false
-
     return User;
 };

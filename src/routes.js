@@ -1,5 +1,5 @@
 const routes = require('express').Router();
-const UsersController = require('./app/controllers/UsersController');
+const UsersController = require('./interface/controllers/UsersController');
 
 routes.post('/users', UsersController.store);
 
