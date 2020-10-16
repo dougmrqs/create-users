@@ -1,4 +1,5 @@
 const { User } = require('../database/models');
+const domainUser = require('../../domain/user/User')
 
 class UserRepository {
 
@@ -11,7 +12,7 @@ class UserRepository {
             error.status = 'NOT_FOUND';
             throw error
         }
-        const user = new User(foundUser.name, foundUser.email, foundUser.cpf, foundUser.age)
+        const user = new domainUser(foundUser.name, foundUser.email, foundUser.cpf, foundUser.age)
         user.id = foundUser.id;
         return user
     }
