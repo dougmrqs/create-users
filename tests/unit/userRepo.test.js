@@ -9,6 +9,22 @@ describe('Creation route test', () => {
 
     afterAll(async () => await sequelize.close());
 
+    it('should return a user by its cpf', async () => {
+        const user = new User('Douglas', 'd@d.com', '24883145018', 27)
+
+        try {
+            await userRepo.addOne(user);
+            const foundUser = userRepo.findByCpf(user.cpf)
+            expect(foundUser).toHaveProperty('id')
+            expect(foundUser).toHaveProperty('name', user.name)
+            expect(foundUser).toHaveProperty('email', user.email)
+            expect(foundUser).toHaveProperty('cpf', user.cpf)
+            expect(foundUser).toHaveProperty('age', user.age)
+        } catch (error) {
+            console.log(error)
+        }
+    });
+
     it('should return not found', async () => {
         try {
             await userRepo.findByCpf('11111111111')

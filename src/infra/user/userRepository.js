@@ -4,14 +4,15 @@ class UserRepository {
 
     async findByCpf(cpf) {
 
-        const user = await User.findOne({ where: { cpf: cpf } })
+        const foundUser = await User.findOne({ where: { cpf: cpf } })
 
-        if (!user) {
+        if (!foundUser) {
             const error = new Error('User not found');
             error.status = 'NOT_FOUND';
             throw error
         }
-
+        const user = new User(foundUser.name, foundUser.email, foundUser.cpf, foundUser.age)
+        user.id = foundUser.id;
         return user
     }
 
@@ -29,7 +30,7 @@ class UserRepository {
                     age: user.age
                 });
 
-                user.id = createdUser.id
+            user.id = createdUser.id
 
             return user
         }
