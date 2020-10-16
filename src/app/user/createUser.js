@@ -2,10 +2,9 @@ const { User, Mailer } = require('../../domain/user');
 const userRepository = require('../../infra/user/userRepository')
 
 
-async function createUser(name, email, cpf, age) {
+async function createUser({ name, email, cpf, age }) {
 
-    const user = new User(name, email, cpf, age);
-
+    const user = new User({ name: name, email: email, cpf: cpf, age: age });
     if (user.legalAge() && user.validCPF()) {
         const newUser = await userRepository.addOne(user);
         // console.log(newUser)

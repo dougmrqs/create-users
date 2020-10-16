@@ -12,7 +12,7 @@ class UserRepository {
             error.status = 'NOT_FOUND';
             throw error
         }
-        const user = new domainUser(foundUser.name, foundUser.email, foundUser.cpf, foundUser.age)
+        const user = new domainUser({ name: foundUser.name, email: foundUser.email, cpf: foundUser.cpf, age: foundUser.age })
         user.id = foundUser.id;
         return user
     }

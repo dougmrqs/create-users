@@ -6,7 +6,7 @@ class UsersController {
         const { name, email, cpf, age } = req.body;
         // console.log( name, email, cpf, age )
         try {
-            await createUser(name, email, cpf, age)
+            await createUser({ name: name, email: email, cpf: cpf, age: age })
             return res.status(201).send({ message: 'User created' })
         }
         catch (error) {

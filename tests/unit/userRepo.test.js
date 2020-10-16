@@ -10,7 +10,7 @@ describe('Creation route test', () => {
     afterAll(async () => await sequelize.close());
 
     it('should return a user by its cpf', async () => {
-        const user = new User('Douglas', 'd@d.com', '24883145018', 27)
+        const user = new User({ name: 'Duglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
 
         try {
             await userRepo.addOne(user);
@@ -35,7 +35,7 @@ describe('Creation route test', () => {
     });
 
     it('should return user already exists', async () => {
-        const user = new User('Douglas', 'd@d.com', '24883145018', 27)
+        const user = new User({ name: 'Duglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
         try {
             await userRepo.addOne(user)
             await userRepo.addOne(user)

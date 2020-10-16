@@ -10,8 +10,8 @@ describe('User creation', () => {
 
     it('should return a created user', async () => {
         try {
-            const user = await createUser('Duglas', 'd@d.com', '24883145018', 27)
-            expect(user).toHaveProperty('name', 'Duglas')
+            const user = await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
+            expect(user).toHaveProperty('name', 'Douglas')
             expect(user).toHaveProperty('cpf', '24883145018')
             expect(user).toHaveProperty('age', 27)
         }
@@ -22,7 +22,7 @@ describe('User creation', () => {
 
     it('should return invalid age', async () => {
         try {
-            await createUser('Duglas', 'd@d.com', '24883145018', 16)
+            await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 16 })
         }
         catch (error) {
             expect(error.status).toBe('INVALID_AGE')
@@ -31,7 +31,7 @@ describe('User creation', () => {
 
     it('should return invalid cpf', async () => {
         try {
-            await createUser('Duglas', 'd@d.com', '24883145017', 27)
+            await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
         }
         catch (error) {
             expect(error.status).toBe('INVALID_CPF')

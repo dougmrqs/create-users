@@ -2,7 +2,7 @@ const CPFValidator = require('./dataValidation/CPFValidator')
 
 class User {
 
-    constructor( name, email, cpf, age ) {
+    constructor({ name, email, cpf, age }) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;
