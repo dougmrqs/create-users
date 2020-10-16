@@ -4,11 +4,10 @@ class UsersController {
 
     async store(req, res) {
         const { name, email, cpf, age } = req.body;
-        
+        // console.log( name, email, cpf, age )
         try {
-            const response = await createUser( name, email, cpf, age )
-            return res.status(201).send({ message: 'User created'})
-
+            await createUser(name, email, cpf, age)
+            return res.status(201).send({ message: 'User created' })
         }
         catch (error) {
             if (error.status == 'ALREADY_EXISTS') res.status(409).send({ message: 'User already exists' })

@@ -7,10 +7,11 @@ async function createUser(name, email, cpf, age) {
     const user = new User(name, email, cpf, age);
 
     if (user.legalAge() && user.validCPF()) {
-        const response = await userRepository.createOne(name, email, cpf, age);
+        const newUser = await userRepository.addOne(user);
+        // console.log(newUser)
         // const mailer = new Mailer();
         // mailer.sendConfirmationMail(email);
-        return response;
+        return newUser;
 
     }
 

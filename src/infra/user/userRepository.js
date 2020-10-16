@@ -15,26 +15,30 @@ class UserRepository {
         return user
     }
 
-    async createOne(name, email, cpf, age) {
-        
-        const user = await User.findOne({ where: { cpf: cpf } })
+    async addOne(user) {
 
-        if (!user) {
+        const userFound = await User.findOne({ where: { cpf: user.cpf } })
+
+        if (!userFound) {
+
             const createdUser = await User.create(
                 {
-                    name: name,
-                    email: email,
-                    cpf: cpf,
-                    age: age
+                    name: user.name,
+                    email: user.email,
+                    cpf: user.cpf,
+                    age: user.age
                 });
-            return createdUser
+
+                user.id = createdUser.id
+
+            return user
         }
 
-        else if (user) {
+        else if (userFound) {
             const error = new Error('User already exists')
             error.status = 'ALREADY_EXISTS'
             throw error
-        }
+        };
 
 
     };

@@ -2,6 +2,7 @@ const truncate = require('../utils/truncate.js');
 const { sequelize } = require('../../src/infra/database/models/index');
 
 const userRepo = require('../../src/infra/user/userRepository');
+const { User } = require('../../src/domain/user')
 
 describe('Creation route test', () => {
     beforeEach(async () => await truncate());
@@ -18,9 +19,10 @@ describe('Creation route test', () => {
     });
 
     it('should return user already exists', async () => {
+        const user = new User('Douglas', 'd@d.com', '24883145018', 27)
         try {
-            await userRepo.createOne('Douglas', 'd@d.com', '24883145018', 27)
-            await userRepo.createOne('Douglas', 'd@d.com', '24883145018', 27)
+            await userRepo.addOne(user)
+            await userRepo.addOne(user)
         } catch (error) {
             expect(error.status).toBe('ALREADY_EXISTS')
         }

@@ -1,5 +1,6 @@
 const app = require('../../src/app.js')
 const request = require('supertest');
+
 const truncate = require('../utils/truncate.js');
 const { sequelize } = require('../../src/infra/database/models/index');
 
