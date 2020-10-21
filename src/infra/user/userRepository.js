@@ -1,29 +1,32 @@
-const { User } = require('../database/models');
-const domainUser = require('../../domain/user/User')
+const User = require('../../domain/user/User');
 
 class UserRepository {
 
+    constructor({ UserModel }) {
+        this.UserModel = UserModel;
+    }
+
     async findByCpf(cpf) {
 
-        const foundUser = await User.findOne({ where: { cpf: cpf } })
+        const foundUser = await this.UserModel.findOne({ where: { cpf: cpf } })
 
         if (!foundUser) {
             const error = new Error('User not found');
             error.status = 'NOT_FOUND';
             throw error
         }
-        const user = new domainUser({ name: foundUser.name, email: foundUser.email, cpf: foundUser.cpf, age: foundUser.age })
+        const user = new User({ name: foundUser.name, email: foundUser.email, cpf: foundUser.cpf, age: foundUser.age })
         user.id = foundUser.id;
         return user
-    }
+    };
 
     async addOne(user) {
 
-        const userFound = await User.findOne({ where: { cpf: user.cpf } })
+        const userFound = await this.UserModel.findOne({ where: { cpf: user.cpf } })
 
         if (!userFound) {
 
-            const createdUser = await User.create(
+            const createdUser = await this.UserModel.create(
                 {
                     name: user.name,
                     email: user.email,
@@ -47,4 +50,4 @@ class UserRepository {
 
 };
 
-module.exports = new UserRepository();
+module.exports = UserRepository;

@@ -1,8 +1,10 @@
 const truncate = require('../utils/truncate.js');
 const { sequelize } = require('../../src/infra/database/models/index');
 
-const userRepo = require('../../src/infra/user/userRepository');
-const { User } = require('../../src/domain/user')
+const UserRepository = require('../../src/infra/user/userRepository');
+const { User: UserModel } = require('../../src/infra/database/models')
+
+const userRepo = new UserRepository({ UserModel })
 
 describe('Creation route test', () => {
     beforeEach(async () => await truncate());
@@ -10,11 +12,11 @@ describe('Creation route test', () => {
     afterAll(async () => await sequelize.close());
 
     it('should return a user by its cpf', async () => {
-        const user = new User({ name: 'Duglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
+        const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
 
         try {
             await userRepo.addOne(user);
-            const foundUser = userRepo.findByCpf(user.cpf)
+            const foundUser = await userRepo.findByCpf(user.cpf)
             expect(foundUser).toHaveProperty('id')
             expect(foundUser).toHaveProperty('name', user.name)
             expect(foundUser).toHaveProperty('email', user.email)
@@ -35,7 +37,8 @@ describe('Creation route test', () => {
     });
 
     it('should return user already exists', async () => {
-        const user = new User({ name: 'Duglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
+        const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
+
         try {
             await userRepo.addOne(user)
             await userRepo.addOne(user)
