@@ -42,12 +42,10 @@ describe('User creation', () => {
         it('should return invalid age', async () => {
             const createUser = makeCreateUser({ userRepository: fakeUserRepository });
 
-            try {
-                await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 16 })
-            }
-            catch (error) {
-                expect(error.status).toBe('INVALID_AGE')
-            }
+            await expect(
+                createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 16 })
+            ).rejects.toThrowError('Invalid age')
+
         });
     });
 
@@ -55,12 +53,10 @@ describe('User creation', () => {
         it('should return invalid cpf', async () => {
             const createUser = makeCreateUser({ userRepository: fakeUserRepository });
 
-            try {
-                await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
-            }
-            catch (error) {
-                expect(error.status).toBe('INVALID_CPF')
-            }
+            await expect(
+                createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145015', age: 27 })
+            ).rejects.toThrowError('Invalid CPF')
+
         });
     });
 
@@ -68,12 +64,10 @@ describe('User creation', () => {
         it('should return already exists', async () => {
             const createUser = makeCreateUser({ userRepository: FUR });
 
-            try {
-                await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
-            }
-            catch (error) {
-                expect(error.status).toBe('ALREADY_EXISTS')
-            }
+            await expect(
+                createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 })
+            ).rejects.toThrowError('User already exists')
+
         });
     });
 });

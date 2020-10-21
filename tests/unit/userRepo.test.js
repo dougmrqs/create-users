@@ -11,10 +11,10 @@ describe('Creation route test', () => {
 
     afterAll(async () => await sequelize.close());
 
-    it('should return a user by its cpf', async () => {
-        const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
+    describe('When looking for an already registered user', () => {
+        it('should return a user by its cpf', async () => {
+            const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
 
-        try {
             await userRepo.addOne(user);
             const foundUser = await userRepo.findByCpf(user.cpf)
             expect(foundUser).toHaveProperty('id')
@@ -22,28 +22,28 @@ describe('Creation route test', () => {
             expect(foundUser).toHaveProperty('email', user.email)
             expect(foundUser).toHaveProperty('cpf', user.cpf)
             expect(foundUser).toHaveProperty('age', user.age)
-        } catch (error) {
-            console.log(error)
-        }
+        });
     });
 
-    it('should return not found', async () => {
-        try {
-            await userRepo.findByCpf('11111111111')
-        }
-        catch (error) {
-            expect(error.status).toBe('NOT_FOUND');
-        };
+    describe('Passing a non-registered CPF', () => {
+        it('should return not found', async () => {
+            await expect(
+                userRepo.findByCpf('11111111111')
+            ).rejects.toThrowError('User not found')
+        });
     });
 
-    it('should return user already exists', async () => {
-        const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
+    describe('When trying to add the same user twice, looking at its CPF', () => {
+        it('should return user already exists', async () => {
+            const user = { name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 }
 
-        try {
-            await userRepo.addOne(user)
-            await userRepo.addOne(user)
-        } catch (error) {
-            expect(error.status).toBe('ALREADY_EXISTS')
-        }
+            const newUser = await userRepo.addOne(user);
+            expect(newUser).toHaveProperty('name', user.name)
+
+            await expect(
+                userRepo.addOne(user)
+            ).rejects.toThrowError('User already exists');
+
+        });
     });
 });
