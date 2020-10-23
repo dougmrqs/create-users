@@ -8,9 +8,6 @@ function makeCreateUser({ userRepository, mailService }) {
 
         const user = new User({ name: name, email: email, cpf: cpf, age: age });
 
-        if (user.legalAge() && user.validCPF()) {
-        }
-
         try {
             if (user.validate()) {
                 const newUser = await userRepository.addOne(user);
