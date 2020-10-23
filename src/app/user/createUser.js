@@ -1,20 +1,23 @@
-const { User }= require('../../domain/user')
+const { User } = require('../../domain/user');
+const ConfirmationEmail = require('../../domain/mailer/UserCreationMail');
 
-function makeCreateUser({ userRepository }) {
+
+function makeCreateUser({ userRepository, mailService }) {
 
     return async function createUser({ name, email, cpf, age }) {
-  
+
         const user = new User({ name: name, email: email, cpf: cpf, age: age });
-        
+
         if (user.legalAge() && user.validCPF()) {
             const newUser = await userRepository.addOne(user);
-            // console.log(newUser)
-            // const mailer = new Mailer();
-            // mailer.sendConfirmationMail(email);
+
+            const confirmationEmail = new ConfirmationEmail({ destination: user.email });
+
+            await mailService.sendMail(confirmationEmail);
+
             return newUser;
-  
         }
-  
+
         else if (!user.validCPF()) {
             const error = new Error("Invalid CPF")
             error.status = 'INVALID_CPF'
@@ -26,6 +29,6 @@ function makeCreateUser({ userRepository }) {
             throw error
         }
     }
-  }
-  
-  module.exports = makeCreateUser;
+}
+
+module.exports = makeCreateUser;

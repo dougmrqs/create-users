@@ -1,4 +1,4 @@
-const makeCreateUser = require('../../src/app/user/createUser');
+const makeCreateUser = require('../../../src/app/user/createUser');
 
 const fakeUserRepository = {
 
@@ -17,12 +17,22 @@ const FUR = {
     }
 };
 
+const fakeMailService = {
+    sendMail: async (mail) => {
+        const sentMail = {
+          ...mail,
+          status: 'SENT'
+        }
+
+        return Promise.resolve(sentMail)
+    }
+};
 
 describe('User creation', () => {
 
     describe('when all data sent are valid', () => {
         it('should return a created user', async () => {
-            const createUser = makeCreateUser({ userRepository: fakeUserRepository });
+            const createUser = makeCreateUser({ userRepository: fakeUserRepository, mailService: fakeMailService });
 
             try {
                 const user = await createUser({ name: 'Douglas', email: 'd@d.com', cpf: '24883145018', age: 27 });

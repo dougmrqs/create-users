@@ -20,6 +20,20 @@ class UserRepository {
         return user
     };
 
+    async findById(id) {
+
+        const foundUser = await this.UserModel.findOne({ where: { id: id } })
+
+        if (!foundUser) {
+            const error = new Error('User not found');
+            error.status = 'NOT_FOUND';
+            throw error
+        }
+        const user = new User({ name: foundUser.name, email: foundUser.email, cpf: foundUser.cpf, age: foundUser.age })
+        user.id = foundUser.id;
+        return user
+    };
+
     async addOne(user) {
 
         const userFound = await this.UserModel.findOne({ where: { cpf: user.cpf } })
@@ -45,6 +59,21 @@ class UserRepository {
             throw error
         };
 
+
+    };
+
+    async updateOne(userData) {
+
+        try {
+            await this.UserModel.update(userData, { where: { cpf: userData.cpf } });
+            const updatedUser = await this.UserModel.findOne({ where: { cpf: userData.cpf } })
+            const user = new User({ name: updatedUser.name, email: updatedUser.email, cpf: updatedUser.cpf, age: updatedUser.age })
+            user.id = updatedUser.id;
+            return user
+        }
+        catch (error) {
+            console.log(error);
+        }
 
     };
 

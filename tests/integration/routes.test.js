@@ -15,7 +15,7 @@ describe('Creation route test', () => {
             email: 'fake@mail.com',
             age: 19,
             cpf: '19066979062'
-        }
+        };
 
         const response = await request(app)
             .post('/users')
@@ -30,11 +30,11 @@ describe('Creation route test', () => {
             email: 'fake@mail.com',
             age: 16,
             cpf: '19066979062'
-        }
+        };
 
         const response = await request(app)
             .post('/users')
-            .send(user)
+            .send(user);
 
         expect(response.status).toBe(400);
     });

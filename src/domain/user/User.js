@@ -16,6 +16,11 @@ class User {
     validCPF() {
         return CPFValidator(this.cpf)
     }
+
+    changeInfo({ email, age }) {
+        if (email) { this.email = email }
+        if (age) { this.age = age }
+    }
 }
 
 module.exports = User;

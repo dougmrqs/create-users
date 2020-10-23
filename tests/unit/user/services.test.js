@@ -1,4 +1,4 @@
-const { CPFValidator } = require('../../src/domain/user');
+const { CPFValidator } = require('../../../src/domain/user');
 
 describe('Services: Validators', () => {
     describe('CPF validation module', () => {
