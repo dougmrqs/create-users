@@ -17,6 +17,18 @@ class User {
         return CPFValidator(this.cpf)
     }
 
+    validate() {
+        if (!this.legalAge()) {
+            const error = new Error('Invalid age')
+            error.status = 'INVALID_AGE'
+            throw error
+        } else if (!this.validCPF()) {
+            const error = new Error('Invalid CPF')
+            error.status = 'INVALID_CPF'
+            throw error
+        } else return (this.legalAge() && this.validCPF())
+    }
+
     changeInfo({ email, age }) {
         if (email) { this.email = email }
         if (age) { this.age = age }

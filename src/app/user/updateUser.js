@@ -8,15 +8,16 @@ function makeUpdateUser({ userRepository }) {
 
         user.changeInfo({ email: userData.email, age: userData.age });
 
-        if (user.legalAge()) {
-            const updatedUser = await userRepository.updateOne(user);
-            return updatedUser;
-        } else if (!user.legalAge()) {
-            const error = new Error('Invalid age');
-            error.status = 'INVALID_AGE';
+        try {
+            if (user.validate()) {
+                const updatedUser = await userRepository.updateOne(user);
+                return updatedUser;
+            }
+        } catch (error) {
             throw error;
         };
     };
 };
+
 
 module.exports = makeUpdateUser;
