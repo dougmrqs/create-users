@@ -64,7 +64,7 @@ describe('User Repository test', () => {
                     age: 28
                 };
 
-                console.log(newUser);
+                // console.log(newUser);
 
                 const updatedUser = await userRepo.updateOne(newUser);
 

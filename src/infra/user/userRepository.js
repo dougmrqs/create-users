@@ -37,9 +37,7 @@ class UserRepository {
     async addOne(user) {
 
         const userFound = await this.UserModel.findOne({ where: { cpf: user.cpf } })
-
         if (!userFound) {
-
             const createdUser = await this.UserModel.create(
                 {
                     name: user.name,

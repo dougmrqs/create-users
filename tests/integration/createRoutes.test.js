@@ -4,6 +4,8 @@ const request = require('supertest');
 const truncate = require('../utils/truncate.js');
 const { sequelize } = require('../../src/infra/database/models/index');
 
+const insertUser = require('../utils/insertUser');
+
 describe('Creation route test', () => {
     beforeEach(async () => await truncate());
 
@@ -69,7 +71,7 @@ describe('Creation route test', () => {
                 cpf: '19066979062'
             }
 
-            await request(app).post('/users').send(user);
+            await insertUser();
 
             const response = await request(app)
                 .post('/users')
