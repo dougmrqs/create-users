@@ -8,14 +8,12 @@ function makeUpdateUser({ userRepository }) {
 
         user.changeInfo({ email: userData.email, age: userData.age });
 
-        try {
-            if (user.validate()) {
-                const updatedUser = await userRepository.updateOne(user);
-                return updatedUser;
-            }
-        } catch (error) {
-            throw error;
-        };
+
+        if (user.validate()) {
+            const updatedUser = await userRepository.updateOne(user);
+            return updatedUser;
+        }
+
     };
 };
 
